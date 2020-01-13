@@ -1,0 +1,14 @@
+# dependencies
+react-gui/node_modules
+express-server/node_modules
+worker/node_modules
+
+# testing
+react-gui/coverage
+express-server/coverage
+worker/coverage
+
+# production
+react-gui/build
+express-server/build
+worker/build
