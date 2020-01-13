@@ -1,0 +1,82 @@
+import React, { Component } from "react";
+import axios from "axios";
+
+class Fib extends Component {
+  state = {
+    seenIndexes: [],
+    values: {},
+    index: ""
+  };
+
+  componentDidMount() {
+    this.fetchValues();
+    this.fetchIndexes();
+  }
+
+  // get values from api (redis)
+  async fetchValues() {
+    const values = await axios.get("/api/values/current");
+    this.setState({
+      values: values.data
+    });
+  }
+
+  // get indexes from api (postgres)
+  async fetchIndexes() {
+    const seenIndexes = await axios.get("/api/values/all");
+    this.setState({
+      seenIndexes: seenIndexes.data
+    });
+  }
+
+  // postgres returns a list
+  renderSeenIndexes() {
+    return this.state.seenIndexes.map(({ number }) => number).join(", ");
+  }
+
+  // redis will return on object
+  renderValues() {
+    const entries = [];
+    for (let key in this.state.values) {
+      entries.push(
+        <div key={key}>
+          For index {key} I calculated {this.state.values[key]}
+        </div>
+      );
+    }
+    return entries;
+  }
+
+  handleSubmit = async event => {
+    event.preventDefaultValue();
+    await axios.post("/api/values", {
+      index: this.state.index
+    });
+    this.setState({
+      index: ""
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>Enter your index :</label>
+          <input
+            value={this.state.index}
+            onChange={this.setState({ index: event.target.value })}
+          />
+          <button>Submit</button>
+
+          <h3>Indexes that i have seen : </h3>
+          {this.renderSeenIndexes()}
+
+          <h3>Calculated values : </h3>
+          {this.renderValues()}
+        </form>
+      </div>
+    );
+  }
+}
+
+export default Fib;
