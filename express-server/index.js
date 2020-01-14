@@ -36,6 +36,8 @@ app.get("/values/current", async (req, res) => {
 //  calculate a fibonnaci sequence
 app.post("/values", async (req, res) => {
   const index = req.body.index;
+  console.log(`receiving a new index : ${index}`);
+
   if (parseInt(index) > 50) {
     return res.send(422).send("Index too high");
   }

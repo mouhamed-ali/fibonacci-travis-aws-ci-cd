@@ -35,6 +35,13 @@ Image nginx-dev-arch.png
 
 docker-compose up --build
 
+docker logs worker
+docker logs api
+docker logs client
+docker logs postgres
+docker logs redis
+docker logs nginx
+
 After cloning the repo, you can build the image using :
 
     $ docker build -f Dockerfile.dev -t react-app-travis-aws:dev .

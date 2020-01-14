@@ -12,12 +12,14 @@ const redisClient = redis.createClient({
 const sub = redisClient.duplicate();
 
 /*
- *   every time we get a new value shows up in redis we gonna to calculate a new fibonnaci value
+ *   every time we get a new value shows up in redis we gonna calculate a new fibonnaci value
  *   and insert that in a hash called values : the key will be the index (the received message) and the value
  *   will the calculated fibonnaci sequence
  */
 sub.on("message", (channel, message) => {
-  redisClient.hset("values", message, fib(parseInt(message)));
+  let value = fib(parseInt(message));
+  console.log(`The calculated value for ${message} is ${value}`);
+  redisClient.hset("values", message, value);
 });
 
 //  subscribe to any insert event, any time anybody inserts a new value (an index) we gonna calculate its fibonnaci sequence

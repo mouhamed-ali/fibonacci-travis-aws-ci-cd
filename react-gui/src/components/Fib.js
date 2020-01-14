@@ -40,7 +40,7 @@ class Fib extends Component {
     for (let key in this.state.values) {
       entries.push(
         <div key={key}>
-          For index {key} I calculated {this.state.values[key]}
+          For index {key}, i calculated {this.state.values[key]}
         </div>
       );
     }
@@ -48,7 +48,7 @@ class Fib extends Component {
   }
 
   handleSubmit = async event => {
-    event.preventDefaultValue();
+    event.preventDefault();
     await axios.post("/api/values", {
       index: this.state.index
     });
