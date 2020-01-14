@@ -1,0 +1,59 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+  redis:
+    image: redis
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+      - client
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./express-server
+    volumes:
+      - /app/node_modules
+      # every thing in the express-server directory will be copied to the /app directory of the container without removing
+      # the node_modules dir from the container (because we are running npm install before copy . . in the docker file we will erase
+      # the node_modules but we can by pass that by using last volume declaration /app/node_modules)
+      # using this volume we don't have to rebuild our image after each change od our source code
+      - ./express-server:/app
+    environment:
+      # in this section we will declare our environment variables. They are gonna be accessible by containers at run time (as env vars)
+      # if you want to get a variable from your computer, don't specify the value (only the name)
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PG_USER=postgres
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_DATABASE=postgres
+      - PG_PASSWORD=postgres_password
+    depends_on:
+      - postgres
+      - redis
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./react-gui
+    volumes:
+      - /app/node_modules
+      - ./react-gui:/app
+  worker:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./worker
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
