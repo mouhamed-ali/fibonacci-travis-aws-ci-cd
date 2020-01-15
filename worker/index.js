@@ -18,7 +18,7 @@ const sub = redisClient.duplicate();
  */
 sub.on("message", (channel, message) => {
   let value = fib(parseInt(message));
-  console.log(`The calculated value for ${message} is ${value}`);
+  console.log(`The calculated value for the index ${message} is ${value}`);
   redisClient.hset("values", message, value);
 });
 

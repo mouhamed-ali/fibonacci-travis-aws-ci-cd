@@ -12,7 +12,7 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Welcome to <code>React</code>
+            Welcome to my <code>React App</code>
           </p>
           <Link to="/">Home</Link>
           <Link to="/about-us">About us</Link>

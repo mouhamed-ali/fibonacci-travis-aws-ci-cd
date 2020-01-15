@@ -47,6 +47,7 @@ app.post("/values", async (req, res) => {
 
   // now we will publish a new event to redis so the worker can intercept it and start the calculation
   redisInstance.redisPublisher.publish("insert", index);
+  console.log(`The insert event was published for the index : ${index}`);
 
   // now we will add the index to the postgres database
   pgClient.query("INSERT INTO values(number) VALUES($1)", [index]);
