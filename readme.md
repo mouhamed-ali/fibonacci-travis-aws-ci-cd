@@ -12,14 +12,14 @@ In this example we will calculate the fibonnaci sequence based on an index trans
 - [Redis](https://redis.io/) : This is an in memory database used to store all the calculated values of our indexes.
 - Worker : This is a Node JS application that contains a redis listener. Each time we store a new index in the redis application, this worker will be triggered to calculate the value of the index and store it to the redis db.
 
-Image
+![fibonnaci-architecture](https://user-images.githubusercontent.com/16627692/72427225-98b1ea80-378b-11ea-8982-a67a8ca4a2fc.png)
 
 We will also use an nginx server to route requests between our applications :
 
 - all requests starting with /api will be routed to the backend
 - other requests (/) will be routed to the react app
 
-Image
+![nginx-proxy](https://user-images.githubusercontent.com/16627692/72427268-ac5d5100-378b-11ea-9dd1-c14de1d95a9e.png)
 
 This example was taken from the course of Stephen Grider. You can find it on Udemy :
 
@@ -29,9 +29,11 @@ This example was taken from the course of Stephen Grider. You can find it on Ude
 
 ### Development
 
-Architecture for our docker compose :
+For development, this will be our architecture :
 
-Image nginx-dev-arch.png
+![nginx-dev-arch](https://user-images.githubusercontent.com/16627692/72427436-065e1680-378c-11ea-83e2-5869c4dfdced.png)
+
+![nginx](https://user-images.githubusercontent.com/16627692/72427520-30afd400-378c-11ea-98f7-5f75aea25e15.png)
 
 To run the docker environment, run this command :
 
@@ -62,6 +64,8 @@ This is our development environment using docker. Every time we change the sourc
 You can now access the app from this link :
 
 - [localhost:8080](http://localhost:8080)
+
+![dev-setup](https://user-images.githubusercontent.com/16627692/72427535-3ad1d280-378c-11ea-82d3-090cadd828e0.png)
 
 ### Production
 
