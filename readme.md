@@ -75,22 +75,25 @@ This is our ci/cd flow :
 
 ![ci-cd-flow](https://user-images.githubusercontent.com/16627692/72443982-8649a800-37af-11ea-8e5a-37acc7800db4.png)
 
-To build and run the production image, run these commands :
+Before deploying this application, you have to create a travis account from here (if you don't have one) :
 
-    $ docker build -t react-app-travis-aws:prod .
+- [Travis Tutorial](https://docs.travis-ci.com/user/tutorial/)
 
-    $ docker run -p 8080:80 react-app-travis-aws:prod
+Now, Go to `settings` and click on the button `sync account`. You should have all of your git repo now on the right side. Click on the toogle button of you repo name (fibonnaci-travis-aws-ci-cd in my case) to enable it. You should see it now on the dashboard page (refresh the page otherwise).
 
-Before deploying this application, I have created a travis account from here :
+![travis-settings-pixlr](https://user-images.githubusercontent.com/16627692/72450288-623f9400-37ba-11ea-8381-a426c89b64d1.jpg)
 
-- [Travis CI](https://travis-ci.org/)
+As we can see in the ci/cd flow, after running the tests we gonna push the production images to docker hub. To do so, we have to add the credentials to log into docker hub as environment variables. These variables will be used by travis to log into your docker hub and push images after building them.
 
-and i added this repo to travis (check the travis config file `.travis.yml` for more details).
+From the dashboard of your project click on `More options > settings`.
 
-To deploy this app to my amazon platform i've :
+![travis-more-options](https://user-images.githubusercontent.com/16627692/72451387-20afe880-37bc-11ea-9f49-df29f5916d4a.png)
 
-1. created a new elastic beans talk application
-2. created a new user to be used by travis to deploy the app
-3. created two environment variables from travis settings to store the key and the secret
-4. used these data (key and the secret) in the travis file
-5. each time i accept a pull request now travis will launch jobs to test the app and deploy it to aws
+Now you have to add two variables :
+
+1. The first is DOCKER_ID which contains your docker id (in my case it's mouhamedali)
+2. The second will be DOCKER_PASSWORD which contains guess what your password
+
+![travis-variables](https://user-images.githubusercontent.com/16627692/72451915-f6125f80-37bc-11ea-99ee-a196c2c85a8c.png)
+
+Have a look at the `.travis.yml` file. You will notice that each time we push on master, travis will create a test image for the react app to run tests on it and if everything is OK we will build and push images to docker hub.

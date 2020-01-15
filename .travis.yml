@@ -1,0 +1,36 @@
+# we tell travis that we need a root access
+sudo: required
+
+services:
+  # we need the docker cli to build and run images
+  - docker
+
+before_install:
+  # we are using the Dockerfile.dev because it's the image we need to make tests (we gonna test only the frontend)
+  - docker build -t mouhamedali/react-test  -f ./react-gui/Dockerfile.dev ./react-gui
+
+script:
+  # this line uses an environment variable used to run test once without launching the watcher. https://create-react-app.dev/docs/running-tests/#linux-macos-bash
+  - docker run -e CI=true mouhamedali/react-test npm run test
+
+after_success:
+  # if everything went well, we will build our production images
+  - docker build -t mouhamedali/fibonnaci-frontend ./react-gui
+  - docker build -t mouhamedali/fibonnaci-backend ./express-server
+  - docker build -t mouhamedali/fibonnaci-proxy ./nginx
+  - docker build -t mouhamedali/fibonnaci-worker ./worker
+
+  # Log into the docker cli (to push these image to the docker hub)
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # push images
+  - docker push mouhamedali/fibonnaci-frontend
+  - docker push mouhamedali/fibonnaci-backend
+  - docker push mouhamedali/fibonnaci-proxy
+  - docker push mouhamedali/fibonnaci-worker
+
+# I will enable build only after pushing on master, i will ignore the develop branch
+# Specify which branches to build using a safelist, or blocklist branches that you do not want to be built:
+branches:
+  only:
+    - master
