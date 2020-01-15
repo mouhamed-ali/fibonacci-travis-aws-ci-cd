@@ -33,8 +33,6 @@ For development, this will be our architecture :
 
 ![nginx-dev-arch](https://user-images.githubusercontent.com/16627692/72427436-065e1680-378c-11ea-83e2-5869c4dfdced.png)
 
-![nginx](https://user-images.githubusercontent.com/16627692/72427520-30afd400-378c-11ea-98f7-5f75aea25e15.png)
-
 To run the docker environment, run this command :
 
     $ docker-compose up --build
@@ -55,6 +53,10 @@ To get logs from each container, you use these commands :
 
     $ docker logs nginx
 
+To run the react tests, run this command :
+
+    $ docker exec -it client npm run test
+
 To stop the environment, use this (or type ctrl+c from the same console) :
 
     $ docker-compose down
@@ -68,6 +70,10 @@ You can now access the app from this link :
 ![dev-setup](https://user-images.githubusercontent.com/16627692/72427535-3ad1d280-378c-11ea-82d3-090cadd828e0.png)
 
 ### Production
+
+This is our ci/cd flow :
+
+![ci-cd-flow](https://user-images.githubusercontent.com/16627692/72443982-8649a800-37af-11ea-8e5a-37acc7800db4.png)
 
 To build and run the production image, run these commands :
 
