@@ -7,6 +7,8 @@ COPY package.json .
 RUN npm install
 
 # the copy is not really necessary in dev as we are attaching sources as a volume but you can keep it if you want
-#COPY . .
+# well i faced an issue (with the react app) when i test the app  because the source did not copied to the test image so don't commit this line
+# i think that this is not a good practise
+COPY . .
 
 CMD ["npm", "run", "dev"]
