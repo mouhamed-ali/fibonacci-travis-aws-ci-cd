@@ -104,8 +104,32 @@ Have a look at the `Dockerrun.aws.json` file to have more details about the comp
 
 For the redis and postgres databases, we will use amazon elasticache and RDS services. We will not setup our custom databases.
 
+After setting up these databases, you have to create a new security group in your default VPC (Virtual Private Cloud). In my case i named it `fibonnaci-sg`. 
+
+![sg](https://user-images.githubusercontent.com/16627692/76165243-b67d4980-6155-11ea-9dd3-25b1e906a2b4.JPG)
+
+Don't forget to add the rule. This rule said : accept all traffic from our VPC (172.31.0.0/16) on the ports range 5432-6379 (redis-postgres)
+
+Well, now you have to configure all components to use this security group :
+
+* Redis (Elasticache)
+![redis-SG](https://user-images.githubusercontent.com/16627692/76165183-3c4cc500-6155-11ea-8927-eac61a1ef333.JPG)
+
+* Postgres (RDS)
+![rds-SG](https://user-images.githubusercontent.com/16627692/76165182-3bb42e80-6155-11ea-81f0-8f3443f4eef2.JPG)
+
+* Our app (Elasticbeanstalk)
+![Container-SG](https://user-images.githubusercontent.com/16627692/76165181-3b1b9800-6155-11ea-97ae-119e12c28e1e.JPG)
+
+We have to override the docker environments variables. We will not use the docker hosts, instead, we will use the services
+(postgres & redis) amazon urls. Check properties of these service to get the real urls.
+In the beanstalk environments variables, add these properties :
+![Container-ENV](https://user-images.githubusercontent.com/16627692/76165184-3c4cc500-6155-11ea-980a-8b0c3e25952d.JPG)
+
 Like we did with docker, you have to create a new AWS application (IAM service) that have the right to deploy to elasticbeanstalk and its access key and secret key to travis.
 In my case i user AWS_ACCESS_KEY and AWS_SECRET_KEY as variables names.
+
+![IAM](https://user-images.githubusercontent.com/16627692/76165367-d103f280-6156-11ea-9be7-446a7a9cf17e.JPG)
 
 Check the travis file to know more about the deployment configuration.
 
