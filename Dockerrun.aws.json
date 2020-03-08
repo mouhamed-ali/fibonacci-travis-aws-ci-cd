@@ -1,0 +1,40 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "mouhamedali/fibonnaci-frontend",
+            "hostname": "client",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "api",
+            "image": "mouhamedali/fibonnaci-backend",
+            "hostname": "api",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "worker",
+            "image": "mouhamedali/fibonnaci-worker",
+            "hostname": "worker",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "nginx",
+            "image": "mouhamedali/fibonnaci-proxy",
+            "hostname": "nginx",
+            "essential": true,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "api"]
+        }
+    ]
+}

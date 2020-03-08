@@ -34,3 +34,19 @@ after_success:
 branches:
   only:
     - master
+
+# In this section we will add amazon configuration to deploy our app to an amazon multi-container docker
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: fibonnaci-sequence
+  env: FibonnaciSequence-env
+  # the s3 bucket of your region
+  bucket_name: elasticbeanstalk-us-east-2-096046092320
+  # choose whatever you want in the path
+  bucket_path: fibonnaci-multi-container
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY  

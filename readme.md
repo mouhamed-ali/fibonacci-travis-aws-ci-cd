@@ -97,3 +97,14 @@ Now you have to add two variables :
 ![travis-variables](https://user-images.githubusercontent.com/16627692/72451915-f6125f80-37bc-11ea-99ee-a196c2c85a8c.png)
 
 Have a look at the `.travis.yml` file. You will notice that each time we push on master, travis will create a test image for the react app to run tests on it and if everything is OK we will build and push images to docker hub.
+
+#### Deploy it on AWS 
+
+Have a look at the `Dockerrun.aws.json` file to have more details about the components to deploy on amazon.
+
+For the redis and postgres databases, we will use amazon elasticache and RDS services. We will not setup our custom databases.
+
+Like we did with docker, you have to create a new AWS application (IAM service) that have the right to deploy to elasticbeanstalk and its access key and secret key to travis.
+In my case i user AWS_ACCESS_KEY and AWS_SECRET_KEY as variables names.
+
+Check the travis file to know more about the deployment configuration.
