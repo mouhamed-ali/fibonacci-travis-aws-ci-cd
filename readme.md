@@ -108,3 +108,5 @@ Like we did with docker, you have to create a new AWS application (IAM service) 
 In my case i user AWS_ACCESS_KEY and AWS_SECRET_KEY as variables names.
 
 Check the travis file to know more about the deployment configuration.
+
+![Fibonacci](https://user-images.githubusercontent.com/16627692/76165014-ba0fd100-6153-11ea-8f0a-c683588d9ed0.JPG)
